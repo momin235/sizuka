@@ -18,17 +18,17 @@ module.exports = {
   onStart: async function ({ api, event }) {
     const ownerText = 
 `╭─ 👑 Oᴡɴᴇʀ Iɴғᴏ 👑 ─╮
-│ 👤 Nᴀᴍᴇ       : MILON HASAN
-│ 🧸 Nɪᴄᴋ       : MILON
-│ 🎂 Aɢᴇ        : 18+
+│ 👤 Nᴀᴍᴇ       : RAFI ISLAM
+│ 🧸 Nɪᴄᴋ       : RAFI
+│ 🎂 Aɢᴇ        : 17+
 │ 💘 Rᴇʟᴀᴛɪᴏɴ : Sɪɴɢʟᴇ
 │ 🎓 Pʀᴏғᴇssɪᴏɴ : VONDAMI ultra pro
-│ 📚 Eᴅᴜᴄᴀᴛɪᴏɴ : 9
-│ 🏡 Lᴏᴄᴀᴛɪᴏɴ : 𝐃𝐡𝐚𝐤𝐚 - Narayanganj 
+│ 📚 Eᴅᴜᴄᴀᴛɪᴏɴ : X 10
+│ 🏡 Lᴏᴄᴀᴛɪᴏɴ : KHULNA - satkhira
 ├─ 🔗 Cᴏɴᴛᴀᴄᴛ ─╮
-│ 📘 Facebook  : https://www.facebook.com/share/17uGq8qVZ9/
-│ 💬 Messenger: m.me/arakashiam
-│ 📞 WhatsApp  : wa.me/01912603370
+│ 📘 Facebook  :https://www.facebook.com/profile.php?id=61585437908438
+│ 💬 Messenger: 
+│ 📞 WhatsApp  : wa.me/01815843985
 ╰────────────────╯`;
 
     const cacheDir = path.join(__dirname, "cache");
@@ -36,7 +36,7 @@ module.exports = {
 
     if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
 
-    const imgLink = "https://i.imgur.com/FuSLmD6.jpeg";
+    const imgLink = "https://i.imgur.com/i0yRBmx.jpeg";
 
     const send = () => {
       api.sendMessage(
