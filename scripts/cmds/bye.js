@@ -22,7 +22,7 @@ const last = {};
 const TRIGGERS = [
   {
     words: ["bye","Bye","BYE","বাই","by","By"],
-    text: "👉যাবি তো যা এতো বাই বাই করার কি আছে যা রাস্তা মাপ🤫🥱",
+    text: "👉যাবি তো যা এতো বাই বাই করার কি আছে যা রাস্তা মাপ!🤫🥱",
     images: [
       "https://i.imgur.com/gi53DUs.jpeg"
     ]
