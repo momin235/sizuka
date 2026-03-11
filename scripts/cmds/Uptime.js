@@ -1,93 +1,128 @@
-const os = require('os');
-const moment = require('moment-timezone');
-const axios = require('axios');
-const mongoose = require('mongoose');
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+const os = require("os");
+const { createCanvas, loadImage } = require("canvas");
 
 module.exports = {
   config: {
-    name: "uptime",
-    version: "8.0.0",
+    name: "up",
+    version: "26.0.0",
+    author: "Milon",
+    countDown: 5,
     role: 0,
-    author: "xalman",
-    description: "Premium Uptime for Goat Bot V2",
     category: "system",
-    guide: "{pn}",
-    countDown: 5
+    description: "Uptime: No Prefix for Admin | English Version",
+    usePrefix: true
   },
 
   onStart: async function ({ api, event }) {
-    const { threadID, messageID, timestamp } = event;
+    // Normal users with prefix will trigger this
+    return this.handleUptime({ api, event });
+  },
 
-    const sendLoading = await api.sendMessage("⏳ 𝗟𝗼𝗮𝗱𝗶𝗻𝗴 𝗦𝘆𝘀𝘁𝗲𝗺: 𝟬%", threadID);
+  onChat: async function ({ api, event }) {
+    const { body, senderID } = event;
+    if (!body) return;
 
-    const loadingSteps = ["𝟮𝟬%", "𝟰𝟬%", "𝟲𝟬%", "𝟴𝟬%", "𝟭𝟬𝟬%"];
-    
-    for (const step of loadingSteps) {
-      await new Promise(resolve => setTimeout(resolve, 500)); // Half second delay per step
-      await api.editMessage(`⏳ 𝗟𝗼𝗮𝗱𝗶𝗻𝗴 𝗦𝘆𝘀𝘁𝗲𝗺: ${step}`, sendLoading.messageID);
+    // Admin UID for No Prefix
+    const adminUID = "61588452928616";
+    const msg = body.toLowerCase();
+
+    // Trigger without prefix if sender is Admin
+    if (senderID == adminUID && (msg == "up" || msg == "uptime")) {
+      return this.handleUptime({ api, event });
     }
+  },
 
-    const uptime = process.uptime();
-    const days = Math.floor(uptime / (3600 * 24));
-    const hours = Math.floor((uptime % (3600 * 24)) / 3600);
-    const mins = Math.floor((uptime % 3600) / 60);
-    const secs = Math.floor(uptime % 60);
+  handleUptime: async function ({ api, event }) {
+    const { threadID, messageID, senderID } = event;
 
-    const usedRam = (process.memoryUsage().rss / 1024 / 1024).toFixed(1);
-    const totalRam = (os.totalmem() / 1024 / 1024 / 1024).toFixed(1);
-    const dbStatus = mongoose.connection.readyState === 1 ? "Connected 🟢" : "Disconnected 🔴";
-    
-    const timeNow = moment.tz("Asia/Dhaka").format("hh:mm:ss A");
-    const dateNow = moment.tz("Asia/Dhaka").format("DD/MM/YYYY");
+    const cacheDir = path.join(__dirname, "cache");
+    if (!fs.existsSync(cacheDir)) fs.ensureDirSync(cacheDir);
 
-    const gifLinks = [
-      "https://files.catbox.moe/22enjn.mp4",
-      "https://files.catbox.moe/22enjn.mp4"
-    ];
-    const randomGif = gifLinks[Math.floor(Math.random() * gifLinks.length)];
-
-    const msg = `
-◢◤━━━━━━━━━━━━━━━━◥◣
-   𝗚𝗢𝗔𝗧 𝗕𝗢𝗧 𝗩𝟮 𝗢𝗡𝗟𝗜𝗡𝗘
-◥◣━━━━━━━━━━━━━━━━◢◤
-
-      『 𝗦𝗬𝗦𝗧𝗘𝗠 𝗔𝗡𝗔𝗟𝗬𝗧𝗜𝗖𝗦 』
-
-💠 𝗨𝗽𝘁𝗶𝗺𝗲 𝗦𝘁𝗮𝘁𝘂𝘀:
-  »→ ⏲️ 𝗧𝗶𝗺𝗲: ${days}𝗱 ${hours}𝗵 ${mins}𝗺 ${secs}𝘀
-  »→ 🛰️ 𝗟𝗮𝘁𝗲𝗻𝗰𝘆: ${Date.now() - event.timestamp}𝗺𝘀
-  »→ 🌐 𝗦𝘁𝗮𝘁𝘂𝘀: 𝗔𝗰𝘁𝗶𝘃𝗲 ✔️
-
-🍃 𝗗𝗮𝘁𝗮𝗯𝗮𝘀𝗲 (𝗠𝗼𝗻𝗴𝗼𝗼𝘀𝗲):
-  »~ 🔌 𝗦𝘁𝗮𝘁𝘂𝘀: ${dbStatus}
-  » 📁 𝗗𝗕 𝗡𝗮𝗺𝗲: TBTNX210
-  » 🧬 𝗗𝗿𝗶𝘃𝗲𝗿: v${mongoose.version}
-
-⚡ 𝗥𝗲𝘀𝗼𝘂𝗿𝗰𝗲𝘀:
-  » 💾 𝗥𝗔𝗠: ${usedRam}𝗠𝗕 / ${totalRam}𝗚𝗕
-  » 🔋 𝗟𝗼𝗮𝗱: [▓▓▓▓▓▓▓░░░]
-  » ⚙️ 𝗡𝗼𝗱𝗲: ${process.version}
-
-🕒 𝗧𝗶𝗺𝗲𝗹𝗶𝗻𝗲:
-  » 📅 𝗗𝗮𝘁𝗲: ${dateNow}
-  » ⏰ 𝗧𝗶𝗺𝗲: ${timeNow}
-
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-   👤 𝗢𝘄𝗻𝗲𝗿: -𓆩𝐅𝐀𝐑𝐇𝐀𝐍𓆪
-   🛡️ 𝗦𝘁𝗮𝘁𝘂𝘀: 𝗦𝗲𝗰𝘂𝗿𝗲𝗱 & 𝗢𝗻𝗹𝗶𝗻𝗲
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬`.trim();
+    const imgPath = path.join(cacheDir, `up_milon_${Date.now()}.png`);
 
     try {
-      const stream = (await axios.get(randomGif, { responseType: 'stream' })).data;
+      const uptime = process.uptime();
+      const hours = Math.floor(uptime / 3600);
+      const minutes = Math.floor((uptime % 3600) / 60);
+      const seconds = Math.floor(uptime % 60);
+      const ram = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
+      const ping = Date.now() - event.timestamp;
 
-      await api.unsendMessage(sendLoading.messageID);
+      // Random Background Images
+      const imageUrls = [
+        "https://i.imgur.com/0rVoz4z.jpeg",
+        "https://i.imgur.com/yOksx4I.jpeg"
+      ];
+      const backgroundUrl = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+
+      const bgImg = await loadImage(backgroundUrl);
+      const canvas = createCanvas(bgImg.width, bgImg.height);
+      const ctx = canvas.getContext("2d");
+
+      ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+
+      // --- Box Design ---
+      const boxWidth = canvas.width - 80;
+      const boxHeight = canvas.height - 120;
+      const boxX = (canvas.width / 2) - (boxWidth / 2); 
+      const boxY = (canvas.height / 2) - (boxHeight / 2); 
+
+      ctx.fillStyle = "rgba(0, 0, 0, 0.85)"; 
+      ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
+
+      // Rainbow Border
+      ctx.lineWidth = 12;
+      const gradient = ctx.createLinearGradient(boxX, boxY, boxX + boxWidth, boxY + boxHeight);
+      gradient.addColorStop(0, "violet");
+      gradient.addColorStop(0.5, "cyan");
+      gradient.addColorStop(1, "magenta");
+      ctx.strokeStyle = gradient;
+      ctx.strokeRect(boxX, boxY, boxWidth, boxHeight);
+
+      // --- English Text Design ---
+      ctx.textAlign = "center";
       
+      // Title
+      ctx.font = "bold 50px Arial";
+      ctx.fillStyle = "#00FFCC"; 
+      ctx.shadowBlur = 15;
+      ctx.shadowColor = "#00FFCC";
+      ctx.fillText("SYSTEM UPTIME STATUS", canvas.width / 2, boxY + 80);
+      ctx.shadowBlur = 0;
+
+      // Uptime Text
+      ctx.font = "bold 40px Arial";
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillText(`RUNNING: ${hours}h ${minutes}m ${seconds}s`, canvas.width / 2, boxY + 160);
+
+      // RAM & PING
+      ctx.font = "30px Arial";
+      ctx.fillStyle = "#FFCC00"; 
+      ctx.fillText(`RAM USAGE: ${ram} MB`, canvas.width / 2, boxY + 230);
+      
+      ctx.fillStyle = "#FF3366"; 
+      ctx.fillText(`LATENCY: ${ping}ms`, canvas.width / 2, boxY + 290);
+
+      // Footer
+      ctx.font = "italic 20px Arial";
+      ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+      ctx.fillText("Developed by Farhan Khan", canvas.width / 2, boxY + boxHeight - 30);
+
+      const buffer = canvas.toBuffer("image/png");
+      fs.writeFileSync(imgPath, buffer);
+
       return api.sendMessage({
-        body: msg,
-        attachment: stream
-      }, threadID, messageID);
+        attachment: fs.createReadStream(imgPath)
+      }, threadID, () => {
+        if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+      }, messageID);
+
     } catch (error) {
-      return api.editMessage(msg, sendLoading.messageID);
+      console.log(error);
+      return api.sendMessage("Error: Failed to generate uptime image.", threadID, messageID);
     }
   }
 };
