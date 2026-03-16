@@ -28,7 +28,7 @@ module.exports = {
 			reset: "✅ Prefix reset successful!\n🔰 System prefix: %1",
 			onlyAdmin: "⛔ Only bot admin can change global prefix.",
 			confirmGlobal: "____________________________________🗨️=𝐆𝐥𝐨𝐛𝐚𝐥 𝗽𝗿𝗲𝗳𝗶𝘅 𝗰𝗵𝗮𝗻𝗴𝗲 𝗿𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱.\n👉=𝗥𝗲𝗮𝗰𝘁 𝘄𝗶𝘁𝗵 𝗲𝗺𝗼𝗷𝗶 𝘁𝗼 𝗰𝗼𝗻𝗳𝗶𝗿𝗺.✅____________________________________",
-			confirmThisThread: "____________________________________🗨️=𝗚𝗿𝗼𝘂𝗽 𝗽𝗿𝗲𝗳𝗶𝘅 𝗰𝗵𝗮𝗻𝗴𝗲 𝗿𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱.\n👉=𝗥𝗲𝗮𝗰𝘁 𝘄𝗶𝘁𝗵 𝗲𝗺𝗼𝗷𝗶 𝘁𝗼 𝗰𝗼𝗻𝗳𝗶𝗿𝗺.✅____________________________________",
+			confirmThisThread: "___________________________________🗨️=𝗚𝗿𝗼𝘂𝗽 𝗽𝗿𝗲𝗳𝗶𝘅 𝗰𝗵𝗮𝗻𝗴𝗲 𝗿𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱.\n👉=𝗥𝗲𝗮𝗰𝘁 𝘄𝗶𝘁𝗵 𝗲𝗺𝗼𝗷𝗶 𝘁𝗼 𝗰𝗼𝗻𝗳𝗶𝗿𝗺.✅.                                                                                                                                                                                 ____________________________________",
 			successGlobal: "✅ Global prefix changed!\n🆕 New prefix: %1",
 			successThisThread: "✅ Group prefix changed!\n🆕 New prefix: %1"
 		}
