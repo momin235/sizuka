@@ -55,7 +55,7 @@ _____________🅲🅾🅽🆃🅰🅲🆃_____________
 
     if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
 
-    const imgLink = "https://files.catbox.moe/6g3069.mp4";
+    const imgLink = "https://i.imgur.com/eCVFBe1.jpeg";
 
     const send = () => {
       api.sendMessage(
