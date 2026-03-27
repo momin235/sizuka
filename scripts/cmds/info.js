@@ -1,89 +1,77 @@
+const fs = require("fs");
 const moment = require("moment-timezone");
 
 module.exports = {
   config: {
     name: "info",
-    version: "2.5.3",
-    author: "ST | Sheikh Tamim (Fix by Sourav ahmed)",
+    aliases: ["admininfo", "botinfo", "admin", "ownerinfo"],
+    version: "1.4",
+    author: "𝐌𝐑.𝐅𝐀𝐑𝐇𝐀𝐍",
+    countDown: 5,
     role: 0,
-    countDown: 20,
-    shortDescription: {
-      en: "Owner & bot information"
-    },
-    longDescription: {
-      en: "Show detailed information about the bot, owner, uptime and socials"
-    },
+    shortDescription: { en: "Show bot & owner info" },
+    longDescription: { en: "Display detailed information about the bot and owner" },
     category: "owner",
-    guide: {
-      en: "{pn}"
-    }
+    guide: { en: "{pn}" }
   },
 
   onStart: async function ({ message }) {
 
     // OWNER INFO
-    const ownerName = "Muhammad Sou Rav";
-    const ownerAge = "17";
-    const ownerFB = "https://www.facebook.com/MuhammadSourav10";
-    const ownerNumber = "+88013XXXXXXX";
-    const status = "Active";
+    const authorName = "𝐌𝐑.𝐅𝐀𝐑𝐇𝐀𝐍";
+    const ownAge = "𝟏𝟗+";
+    const messenger = "https://m.me/DEVIL.FARHAN.420";
+    const authorFB = "https://www.facebook.com/DEVIL.FARHAN.420";
+    const authorNumber = "https://wa.me/+8801934640061";
+    const Status = "𝐒𝐈𝐍𝐆𝐋𝐄";
 
-    // BOT INFO
-    const botName = global.GoatBot?.config?.nickNameBot || "GoatBot";
-    const prefix = global.GoatBot?.config?.prefix || "/";
-    const totalCommands = global.GoatBot?.commands?.size || 0;
+    // SAFE CATBOX VIDEO LINK
+    const videoLink = "https://files.catbox.moe/rtgdvs.mp4";
 
-    // GIF / VIDEO URL
-    const images = [
-      "https://files.catbox.moe/rtgdvs.mp4"
-    ];
-    const image = images[Math.floor(Math.random() * images.length)];
-
-    // DATE & TIME
+    // BANGLADESH TIME
     const now = moment().tz("Asia/Dhaka");
     const date = now.format("MMMM Do YYYY");
     const time = now.format("h:mm:ss A");
 
-    // UPTIME
+    // BOT UPTIME
     const uptime = process.uptime();
-    const days = Math.floor(uptime / 86400);
-    const hours = Math.floor((uptime % 86400) / 3600);
-    const minutes = Math.floor((uptime % 3600) / 60);
     const seconds = Math.floor(uptime % 60);
+    const minutes = Math.floor((uptime / 60) % 60);
+    const hours = Math.floor((uptime / 3600) % 24);
+    const days = Math.floor(uptime / 86400);
+
     const uptimeString = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
-    // SEND MESSAGE
+    const text =
+`‎╔═《✨ 𝗢𝗪𝗡𝗘𝗥 & 𝗕𝗢𝗧 𝗜𝗡𝗙𝗢 ✨》═╗
+
+🤖>𝐁𝐎𝐓-𝐍𝐀𝐌𝐄:- ${global.GoatBot.config.nickNameBot}
+👾>𝐏𝐑𝐄𝐅𝐈𝐗:- ${global.GoatBot.config.prefix}
+
+👑>𝐁𝐎𝐓-𝐎𝐖𝐍𝐄𝐑:- ${authorName}
+📝>𝐀𝐆𝐄:- ${ownAge}
+💕>𝐑𝐄𝐋𝐀𝐓𝐈𝐎𝐍𝐒𝐇𝐈𝐏:- ${Status}
+
+📞>𝐖𝐇𝐀𝐓𝐒𝐀𝐏𝐏:- ${authorNumber}
+🌍>𝐅𝐀𝐂𝐄𝐁𝐎𝐎𝐊:- ${authorFB}
+
+🗓>𝐃𝐀𝐓𝐄:- ${date}
+⏰>𝐓𝐈𝐌𝐄:- ${time}
+
+🔰>𝐂𝐎𝐍𝐓𝐀𝐂𝐓-𝐎𝐖𝐍𝐄𝐑:- ${messenger}
+🕠>𝐁𝐎𝐓-𝐔𝐏𝐓𝐈𝐌𝐄:- ${uptimeString}
+
+‎╚═════════════════════════╝`;
+
     return message.reply({
-      body: `
-╔═《 ✨ 𝗢𝗪𝗡𝗘𝗥 & 𝗕𝗢𝗧 𝗜𝗡𝗙𝗢 ✨ 》═╗
-
-⭓ 🤖 𝗕𝗼𝘁 𝗡𝗮𝗺𝗲   : 『 ${botName} 』
-
-⭓ ☄️ 𝗣𝗿𝗲𝗳𝗶𝘅      : 『 ${prefix} 』
-
-⭓ 🧠 𝗖𝗼𝗺𝗺𝗮𝗻𝗱𝘀    : 『 ${totalCommands} 』
-
-⭓ ⚡ 𝗨𝗽𝘁𝗶𝗺𝗲      : 『 ${uptimeString} 』
-
-⭓ 🗓️ 𝗗𝗮𝘁𝗲        : 『 ${date} 』
-
-⭓ ⏰ 𝗧𝗶𝗺𝗲        : 『 ${time} 』
-
-⭓ 👑 𝗢𝘄𝗻𝗲𝗿      : 『 𝐌𝐑.𝐁𝐎𝐒𝐒 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 』
-
-⭓ 🎂 𝗔𝗴𝗲        : 『 19+ 』
-
-⭓ ❤️ 𝗦𝘁𝗮𝘁𝘂𝘀     : 『 ${status} 』
-
-⭓ 📱 𝗪𝗵𝗮𝘁𝘀𝗔𝗽𝗽  : 『 https://wa.me/+8801934640061 』
-
-⭓ 🌐 𝗙𝗮𝗰𝗲𝗯𝗼𝗼𝗸  : 『 https://www.facebook.com/DEVIL.FARHAN.420 』
-
-───────────────
-🔧 Fix by -𝐌𝐑.𝐁𝐎𝐒𝐒 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 
-╚══════════════════════════╝
-`,
-      attachment: await global.utils.getStreamFromURL(image)
+      body: text,
+      attachment: await global.utils.getStreamFromURL(videoLink)
     });
+  },
+
+  onChat: async function ({ event, message }) {
+    if (event.body?.toLowerCase() === "info") {
+      return this.onStart({ message });
+    }
   }
 };
