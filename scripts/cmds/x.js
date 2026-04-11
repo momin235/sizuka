@@ -5,7 +5,7 @@ module.exports = {
   config: {
     name: "xreply",
     aliases: ["x"],
-    author: "𝐒𝐡𝐀𝐧𝐓𝐨",
+    author: "MR_FARHAN",
     category: "fun",
     version: "8.0",
     countDown: 5,
