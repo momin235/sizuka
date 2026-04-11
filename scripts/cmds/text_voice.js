@@ -6,7 +6,7 @@ module.exports = {
 config: {
 name: "text_voice",
 version: "1.0.5",
-author: "Farhan-Khan",
+author: "MR_FARHAN",
 countDown: 1, // সময় কমিয়ে ১ সেকেন্ড করা হলো
 role: 0,
 shortDescription: "Ultra Fast Voice Reply",
