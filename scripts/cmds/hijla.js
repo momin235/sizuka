@@ -3,6 +3,19 @@ const fs = require("fs-extra");
 const path = require("path");
 const { createCanvas, loadImage } = require("canvas");
 
+/* ================== 🔐 AUTHOR LOCK SYSTEM ================== */
+const REAL_AUTHOR = "FARHAN-KHAN";
+
+function checkAuthorLock(config) {
+  if (config.author !== REAL_AUTHOR) {
+    console.log("🚫 AUTHOR NAME CHANGED! FILE LOCKED.");
+
+    // Optional: File auto break system
+    throw new Error("⛔ This file is locked by FARHAN-KHAN. Don't change author!");
+  }
+}
+/* =========================================================== */
+
 module.exports = {
   config: {
     name: "hijla",
@@ -19,12 +32,16 @@ module.exports = {
  * 🤖 BOT NAME: FARHAN BOT
  * 👤 OWNER: FARHAN KHAN 
  * 🔗 FACEBOOK: https://www.facebook.com/MR.FARHAN.420
- * 📞 WHATSAPP: +880 1934640061
+ * 📞 WHATSAPP: +8801934640061
  * 📍 LOCATION: CHUADANGA, BANGLADESH
  * 🛠️ PROJECT: FARHAN BOT PROJECT (2026)
  * --------------------------------------- */
 
   onStart: async function ({ api, event, message }) {
+
+    // 🔐 AUTHOR CHECK (RUN FIRST)
+    checkAuthorLock(module.exports.config);
+
     const { threadID, messageID, mentions, messageReply } = event;
 
     const cacheDir = path.join(process.cwd(), "cache");
@@ -61,7 +78,6 @@ module.exports = {
 
       ctx.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
 
-      // --- PFP Position & Face Shape (Oval) ---
       const pfpWidth = 90;  
       const pfpHeight = 110; 
       const x = 148; 
