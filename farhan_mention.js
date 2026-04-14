@@ -1,6 +1,6 @@
 module.exports = {
   config: {
-    name: "adminmention",
+    name: "farhan_mention",
     version: "1.3.2",
     author: "MR_FARHAN",
     countDown: 0,
